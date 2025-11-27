@@ -31,21 +31,20 @@ public:
 		virtual void OnThreadWillExit(AsyncModalRunner *runner) = 0;
 	};
 
+	// Helper struct to enable std::make_shared with private constructor
+	struct PrivateTag {};
+
 	// Once this method is called the runner will take
 	// the ownership of the dialog
 	bool DoModal(ModalWndBase *dlg);
 	void CancelModalThenExit();
 
-private:
-	template<class _Ty>
-	friend class std::_Ref_count_obj;
-
-	friend class AsyncModalRunnerManager;
-	friend class std::shared_ptr<AsyncModalRunner>;
-	friend class std::_Ref_count<AsyncModalRunner>;
-
-	AsyncModalRunner(Delegate *delegate);
+	// Public constructor for std::make_shared (requires PrivateTag)
+	AsyncModalRunner(Delegate *delegate, PrivateTag);
 	virtual ~AsyncModalRunner();
+
+private:
+	friend class AsyncModalRunnerManager;
 
 	void Run();
 

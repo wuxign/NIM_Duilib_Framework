@@ -12,6 +12,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <locale.h>
 
 // base header
 #include "base/base.h"

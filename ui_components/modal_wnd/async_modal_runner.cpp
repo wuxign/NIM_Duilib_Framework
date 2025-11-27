@@ -8,7 +8,7 @@ namespace nim_comp {
 
 static const char kModalThreadName[] = "AsyncModalRunner";
 
-AsyncModalRunner::AsyncModalRunner(Delegate *delegate)
+AsyncModalRunner::AsyncModalRunner(Delegate *delegate, PrivateTag /*tag*/)
 	: event_(true, false), is_running_(false), quit_posted_(false),
 	  delegate_(delegate)
 {
@@ -69,7 +69,7 @@ bool AsyncModalRunnerManager::DoModal(ModalWndBase *dlg)
 {
 	if (dlg == nullptr)
 		return false;
-	std::shared_ptr<AsyncModalRunner> runner = std::make_shared<AsyncModalRunner>(this);
+	std::shared_ptr<AsyncModalRunner> runner = std::make_shared<AsyncModalRunner>(this, AsyncModalRunner::PrivateTag{});
 	/*std::shared_ptr<AsyncModalRunner> runner = nullptr;
 	runner.reset(new AsyncModalRunner(this));*/
 	{
